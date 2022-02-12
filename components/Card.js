@@ -5,6 +5,7 @@ const Card = (props) => {
   return (
     <View style={styles.item}>
       <Text style={styles.date}>{props.date}</Text>
+      <Text style={styles.date}>{props.time}</Text>
       <Text style={styles.result}>{props.result}</Text>
     </View>
   );

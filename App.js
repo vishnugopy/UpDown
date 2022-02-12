@@ -9,7 +9,6 @@ export default function App() {
   const [HomeView, setHomeView] = useState(true);
   const [History, setHistory] = useState([]);
   const [counter, setCounter] = useState(0);
-  const [Alert, setAlert] = useState("");
 
   React.useEffect(() => {
     GetToDevice();
@@ -50,10 +49,12 @@ export default function App() {
 
   const AddResult = () =>{
     const date = new Date().toLocaleDateString();
+    const time = new Date().toLocaleTimeString();
     const result = counter;
 
     const newHistory = {
       date,
+      time,
       result,
     };
 
@@ -125,6 +126,7 @@ export default function App() {
                 <Card
                   key={index}
                   date={item.date}
+                  time={item.time}
                   result={item.result}
                   index={index}
                 />
@@ -167,7 +169,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     backgroundColor: "#fff",
-    height: "80%",
+    height: "87vh",
   },
   buttonContainer: {
     display: "flex",
