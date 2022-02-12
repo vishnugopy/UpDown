@@ -1,8 +1,8 @@
+import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { useFonts } from "expo-font";
 import Card from "./components/Card";
 import { TouchableOpacity, ScrollView, Pressable } from "react-native-web";
-import React, { useState, useEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function App() {
@@ -19,6 +19,27 @@ export default function App() {
     AddToDevice(History);
   }, [History]);
 
+  const AddToDevice = async (History) => {
+    try {
+      const stringifyHistory = JSON.stringify(History);
+      await AsyncStorage.setItem("@history", stringifyHistory);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const GetToDevice = async () => {
+    try {
+      const history = await AsyncStorage.getItem("@history");
+      if (history != null) {
+        setHistory(JSON.parse(history));
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+
   const [loaded] = useFonts({
     RubikBold: require("./assets/fonts/Rubik-Bold.ttf"),
     RubikLight: require("./assets/fonts/Rubik-Light.ttf"),
@@ -27,7 +48,7 @@ export default function App() {
     return null;
   }
 
-  function AddResult() {
+  const AddResult = () =>{
     const date = new Date().toLocaleDateString();
     const result = counter;
 
@@ -44,31 +65,14 @@ export default function App() {
     }
   }
 
-  function AddToDevice(History) {
-    try {
-      const stringifyHistory = JSON.stringify(History);
-      AsyncStorage.setItem("@history", stringifyHistory);
-    } catch (error) {
-      console.log(error);
-    }
-  }
 
-  function GetToDevice() {
-    try {
-      const historyItems = AsyncStorage.getItem("@history");
-      if (historyItems != null) {
-        setHistory(JSON.parse(historyItems));
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  }
+ 
 
-  function AddToCounter() {
+  const AddToCounter = () => {
     setCounter(counter + 1);
   }
 
-  function ResetResult() {
+  const  ResetResult = () => {
     setCounter(0);
   }
 
@@ -113,19 +117,20 @@ export default function App() {
         </View>
       ) : (
         <ScrollView style={styles.historyItems}>
-
-          {History == [] ? ( <Text>No History</Text>) : null }
-
-          {History.map((item, index) => {
-            return (
-              <Card
-                key={index}
-                date={item.date}
-                result={item.result}
-                index={index}
-              />
-            );
-          })}
+          {History.length === 0 ? (
+            <Text style={styles.historyText}>No History</Text>
+          ) : (
+            History.map((item, index) => {
+              return (
+                <Card
+                  key={index}
+                  date={item.date}
+                  result={item.result}
+                  index={index}
+                />
+              );
+            })
+          )}
         </ScrollView>
       )}
     </View>
@@ -203,4 +208,12 @@ const styles = StyleSheet.create({
     color: "#FF3162",
     fontWeight: "1000",
   },
+  historyText: {
+    fontFamily: "RubikLight",
+    fontSize: 24,
+    marginTop: "80%",
+    color: "#FF3162",
+    textAlign: "center",
+  },
+
 });
