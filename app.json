@@ -2,7 +2,7 @@
   "expo": {
     "name": "UpDown",
     "slug": "UpDown",
-    "version": "1.0.0",
+    "version": "3",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -23,7 +23,10 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.stupidversion.updown",
+      "versionCode": 3 ,
+      "permissions" : []
     },
     "web": {
       "favicon": "./assets/favicon.png"
