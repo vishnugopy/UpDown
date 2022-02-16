@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
     fontFamily: "RubikBold",
     color: "#FF3162",
     fontSize: 20,
-    fontWeight: "1000",
+    fontWeight: "900",
   },
 });
 

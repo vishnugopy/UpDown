@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { useFonts } from "expo-font";
-import Card from "./components/Card";
-import { TouchableOpacity, ScrollView, Pressable } from "react-native-web";
+import { TouchableOpacity, ScrollView, Pressable } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+
+import Card from "./components/Card";
 
 export default function App() {
   const [HomeView, setHomeView] = useState(true);
@@ -11,33 +12,31 @@ export default function App() {
   const [counter, setCounter] = useState(0);
 
   React.useEffect(() => {
+    const GetToDevice = async () => {
+      try {
+        const history = await AsyncStorage.getItem("@history");
+        if (history != null) {
+          setHistory(JSON.parse(history));
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
     GetToDevice();
   }, []);
 
   React.useEffect(() => {
+    const AddToDevice = async (History) => {
+      try {
+        const stringifyHistory = JSON.stringify(History);
+        await AsyncStorage.setItem("@history", stringifyHistory);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
     AddToDevice(History);
   }, [History]);
-
-  const AddToDevice = async (History) => {
-    try {
-      const stringifyHistory = JSON.stringify(History);
-      await AsyncStorage.setItem("@history", stringifyHistory);
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-  const GetToDevice = async () => {
-    try {
-      const history = await AsyncStorage.getItem("@history");
-      if (history != null) {
-        setHistory(JSON.parse(history));
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
 
   const [loaded] = useFonts({
     RubikBold: require("./assets/fonts/Rubik-Bold.ttf"),
@@ -47,7 +46,7 @@ export default function App() {
     return null;
   }
 
-  const AddResult = () =>{
+  const AddResult = () => {
     const date = new Date().toLocaleDateString();
     const time = new Date().toLocaleTimeString();
     const result = counter;
@@ -64,18 +63,15 @@ export default function App() {
       setHistory([...History, newHistory]);
       setCounter(0);
     }
-  }
-
-
- 
+  };
 
   const AddToCounter = () => {
     setCounter(counter + 1);
-  }
+  };
 
-  const  ResetResult = () => {
+  const ResetResult = () => {
     setCounter(0);
-  }
+  };
 
   return (
     <View style={styles.container}>
@@ -83,7 +79,7 @@ export default function App() {
         <TouchableOpacity style={styles.headerButton}>
           <Text
             style={styles.headerText}
-            onClick={() => {
+            onPress={() => {
               setHomeView(true);
             }}
           >
@@ -93,7 +89,7 @@ export default function App() {
         <TouchableOpacity style={styles.headerButton}>
           <Text
             style={styles.headerText}
-            onClick={() => {
+            onPress={() => {
               setHomeView(false);
             }}
           >
@@ -103,8 +99,8 @@ export default function App() {
       </View>
 
       {HomeView === true ? (
-        <View style={styles.TouchController} onClick={AddToCounter}>
-          <View style={styles.resultContainer}>
+        <Pressable style={styles.TouchController} onPress={AddToCounter} >
+          <View style={styles.resultContainer} >
             <Text style={styles.userResult}>{counter}</Text>
           </View>
           <View style={styles.buttonContainer}>
@@ -115,7 +111,7 @@ export default function App() {
               <Text style={styles.buttonText}>Finish</Text>
             </Pressable>
           </View>
-        </View>
+        </Pressable>
       ) : (
         <ScrollView style={styles.historyItems}>
           {History.length === 0 ? (
@@ -148,8 +144,7 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: "row",
     justifyContent: "space-around",
-    paddingHorizontal: 20,
-    paddingVertical: 30,
+    paddingVertical: 50,
   },
   headerText: {
     fontFamily: "RubikLight",
@@ -169,17 +164,17 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     backgroundColor: "#fff",
-    height: "87vh",
+    height: "80%",
   },
   buttonContainer: {
     display: "flex",
     flexDirection: "row",
-    justifyContent: "space-around",
+    justifyContent: "space-evenly",
     alignItems: "center",
-    width: "90%",
-    gap: 20,
+    width: "95%",
   },
   button: {
+    marginHorizontal: 10,
     flex: 1,
     textAlign: "center",
     padding: 20,
@@ -191,6 +186,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: "#FF3162",
     fontWeight: "bold",
+    textAlign: "center",
   },
   resultContainer: {
     marginTop: 50,
@@ -201,14 +197,14 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     borderColor: "#FF316210",
     borderWidth: 25,
-    borderRadius: "50%",
+    borderRadius: 500,
     padding: 50,
   },
   userResult: {
     fontFamily: "RubikBold",
     fontSize: 120,
     color: "#FF3162",
-    fontWeight: "1000",
+    fontWeight: "700",
   },
   historyText: {
     fontFamily: "RubikLight",
@@ -217,5 +213,4 @@ const styles = StyleSheet.create({
     color: "#FF3162",
     textAlign: "center",
   },
-
 });
