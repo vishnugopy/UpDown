@@ -99,8 +99,8 @@ export default function App() {
       </View>
 
       {HomeView === true ? (
-        <Pressable style={styles.TouchController} onPress={AddToCounter} >
-          <View style={styles.resultContainer} >
+        <Pressable style={styles.TouchController} onPress={AddToCounter}>
+          <View style={styles.resultContainer}>
             <Text style={styles.userResult}>{counter}</Text>
           </View>
           <View style={styles.buttonContainer}>
@@ -137,14 +137,14 @@ export default function App() {
 
 const styles = StyleSheet.create({
   container: {
-    fontFamily: "RubikBlack",
+    fontFamily: "RubikBold",
     flex: 1,
     backgroundColor: "#fff",
   },
   header: {
     flexDirection: "row",
     justifyContent: "space-around",
-    paddingVertical: 50,
+    paddingTop: 80,
   },
   headerText: {
     fontFamily: "RubikLight",
