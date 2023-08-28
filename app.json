@@ -25,11 +25,16 @@
         "backgroundColor": "#FFFFFF"
       },
       "package": "com.stupidversion.updown",
-      "versionCode": 3 ,
-      "permissions" : []
+      "versionCode": 3,
+      "permissions": []
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "681e1418-33eb-40ba-8ec1-2180114780ae"
+      }
     }
   }
 }
