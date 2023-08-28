@@ -2,7 +2,7 @@
   "expo": {
     "name": "UpDown",
     "slug": "UpDown",
-    "version": "3",
+    "version": "4",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
